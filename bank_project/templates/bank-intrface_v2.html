@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMSI Interface</title>
+</head>
+<body>
+    <h1>CMSI Interface</h1>
+    
+    <h2>Загрузка файлов</h2>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="files" multiple>
+        <button type="submit">Загрузить</button>
+    </form>
+    
+    <h2>Список файлов</h2>
+    <ul>
+        {% for file in files %}
+        <li>
+            {{ file }}
+            <a href="{{ url_for('download', filename=file) }}">Скачать</a>
+            <a href="{{ url_for('view', filename=file) }}">Просмотр</a>
+            <form action="{{ url_for('delete', filename=file) }}" method="post" style="display:inline;">
+                <button type="submit">Удалить</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+    
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+</body>
+</html>
